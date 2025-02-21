@@ -13,11 +13,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: process.env.FRONT_PORT,
 }));
 const sql = neon(process.env.DATABASE_URL);
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: process.env.FRONT_PORT,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -1396,7 +1396,7 @@ app.get('/test-header/:testid', authenticateJWT, async (req, res) => {
 
 
 
-app.listen(process.env.PORT, () => console.log(`My app is listening at http://localhost:${process.env.PORT}`))
+app.listen(process.env.PORT, () => console.log(`My app is listening at ${process.env.BASE_URL}`))
 
 
 
