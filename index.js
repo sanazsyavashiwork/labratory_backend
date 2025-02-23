@@ -12,9 +12,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
-app.use(cors({
-  origin: process.env.FRONT_PORT,
-}));
 const sql = neon(process.env.DATABASE_URL);
 app.use(cors({
   origin: process.env.FRONT_PORT,
