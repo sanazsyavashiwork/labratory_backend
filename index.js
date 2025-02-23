@@ -23,6 +23,15 @@ app.use(cors({
   credentials: true
 }));
 
+app.options('*', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://5.34.198.105:3000');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Max-Age', '600');
+  res.status(200).end();
+});
+
 //return lists of books
 app.get('/login', async (request, response) => {
   const result = await sql`SELECT * from library`;
