@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }))
 
 const sql = neon(process.env.DATABASE_URL);
 app.use(cors({
-  origin: process.env.FRONT_PORT,
+  origin:true,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -23,7 +23,7 @@ app.use(cors({
 }));
 
 //return lists of books
-app.get('/login/', async (request, response) => {
+app.get('/login', async (request, response) => {
   const result = await sql`SELECT * from library`;
   response.send(result)
 })
@@ -152,7 +152,7 @@ app.post('/users', authenticateJWT, async (req, res) => {
 });
 
 
-app.put('/user/:id/', authenticateJWT, async (req, res) => {
+app.put('/user/:id', authenticateJWT, async (req, res) => {
   const { firstname, lastname, age, emailaddress, phonenumber, sex } = req.body;
   const id = +req.params.id
 
@@ -201,7 +201,7 @@ WHERE users.id = ${id};
   }
 });
 
-app.delete('/user/:id/', authenticateJWT, async (req, res) => {
+app.delete('/user/:id', authenticateJWT, async (req, res) => {
   const id = +req.params.id
 
   const currentUserId = req.user.id;
@@ -233,7 +233,7 @@ WHERE users.id = ${id};
   }
 });
 //-------------------------------------------------------------------------------------------
-app.get('/guests/:search?/', authenticateJWT, async (req, res) => {
+app.get('/guests/:search?', authenticateJWT, async (req, res) => {
   const userId = req.user.id;
   const search = req?.params?.search
   try {
@@ -327,7 +327,7 @@ app.post('/guests', authenticateJWT, async (req, res) => {
 });
 
 
-app.put('/guest/:id/', authenticateJWT, async (req, res) => {
+app.put('/guest/:id', authenticateJWT, async (req, res) => {
   const { firstname, lastname, age, emailaddress, phonenumber, sex } = req.body;
   const id = +req.params.id
 
@@ -376,7 +376,7 @@ WHERE users.id = ${id};
   }
 });
 
-app.delete('/guest/:id/', authenticateJWT, async (req, res) => {
+app.delete('/guest/:id', authenticateJWT, async (req, res) => {
   const id = +req.params.id
 
   const currentUserId = req.user.id;
@@ -409,7 +409,7 @@ WHERE users.id = ${id};
 });
 
 //---------------------------------------------------------------------------
-app.get('/tests-scheduled/:search?/', authenticateJWT, async (req, res) => {
+app.get('/tests-scheduled/:search?', authenticateJWT, async (req, res) => {
   const search = req?.params?.search
 
   const currentUserId = req.user.id;
@@ -468,7 +468,7 @@ app.get('/tests-scheduled/:search?/', authenticateJWT, async (req, res) => {
 });
 
 //------------------------------------------------------------------------------------
-app.post('/test-scheduled/', authenticateJWT, async (req, res) => {
+app.post('/test-scheduled', authenticateJWT, async (req, res) => {
   const { guest_username, testdate, testtype } = req.body;
   const currentUserId = req.user.id;
   const currentUser = await sql`SELECT * FROM users WHERE id=${currentUserId}`;
@@ -633,7 +633,7 @@ app.get('/guest', authenticateJWT, async (req, res) => {
 })
 //------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------
-app.get('/tests-header/:search?/', authenticateJWT, async (req, res) => {
+app.get('/tests-header/:search?', authenticateJWT, async (req, res) => {
   const search = req?.params?.search
 
   const currentUserId = req.user.id;
@@ -1119,7 +1119,7 @@ app.delete('/test-header/:testid', authenticateJWT, async (req, res) => {
 
 //----------------------------------------------------------------------------------------------
 
-app.get('/tests-header-guest/', authenticateJWT, async (req, res) => {
+app.get('/tests-header-guest', authenticateJWT, async (req, res) => {
 
   const currentUserId = req.user.id;
 
